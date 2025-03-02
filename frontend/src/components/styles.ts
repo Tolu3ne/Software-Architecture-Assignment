@@ -33,11 +33,6 @@ const styles = {
     backgroundColor: "white",
     width: "350px",
   },
-  title: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    marginBottom: "20px",
-  },
   buttonContainer: {
     display: "flex",
     flexDirection: "column" as const,

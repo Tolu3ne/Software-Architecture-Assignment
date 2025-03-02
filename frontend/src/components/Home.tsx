@@ -10,7 +10,7 @@ const Home: React.FC = () => {
         <img src={hospitalImage} alt="Hospital" style={styles.image} />
       </div>
       <div style={styles.content}>
-        <h1 style={styles.title}>Hospital Management System</h1>
+        <h2>Welcome to MediBK Hospital!</h2>
         <div style={styles.buttonContainer}>
           <Link to="/patient" style={styles.button}>Patient</Link>
           <Link to="/doctor" style={styles.button}>Doctor</Link>
