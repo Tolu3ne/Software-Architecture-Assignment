@@ -10,10 +10,101 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// remove model Temp after database implementation
+model Patient {
+  id          Int    @id @default(autoincrement())
+  name        String
+  age         Int?
+  gender      String
+  phoneNumber String?
+  email       String?
+  address     String?
 
-model Temp {
-  id Int @id @default(autoincrement())
+  appointments Appointment[]
+  medicalRecords MedicalRecord[]
+  billings Billing[]
+}
+
+model Doctor {
+  id            Int    @id @default(autoincrement())
+  specialization String
+  departmentId  Int?
+  department    Department? @relation(fields: [departmentId], references: [id])
+  appointments Appointment[]
+}
+
+model Department {
+  id       Int    @id @default(autoincrement())
+  name     String
+  authList String?
+  doctors  Doctor[]
+  nurses   Nurse[]
+  manager Manager? @relation()
+}
+
+model Nurse {
+  id            Int    @id @default(autoincrement())
+  departmentId  Int?
+  department    Department? @relation(fields: [departmentId], references: [id])
+}
+
+model Appointment {
+  id          Int    @id @default(autoincrement())
+  appointmentTime DateTime
+  patientId   Int
+  doctorId    Int
+  description String?
+
+  patient     Patient @relation(fields: [patientId], references: [id])
+  doctor      Doctor @relation(fields: [doctorId], references: [id])
+}
+
+model MedicalRecord {
+  id          Int    @id @default(autoincrement())
+  patientId   Int
+  diagnosis   String
+  prescription String?
+  patient     Patient @relation(fields: [patientId], references: [id])
+}
+
+model Prescription {
+  id                 Int    @id @default(autoincrement())
+  medicationList     String
+  dosage            String
+  duration          String
+  updatable         Boolean?
+  updatablePrescription Boolean?
+}
+
+model Medication {
+  id            Int    @id @default(autoincrement())
+  name          String
+  medicalCategory String
+  diagnostic    String?
+  price         Float
+  updatable     Boolean?
+}
+
+model Billing {
+  id         Int    @id @default(autoincrement())
+  patientId  Int
+  payedTime  DateTime
+  amount     Float
+  billStatus Boolean?
+  patient    Patient @relation(fields: [patientId], references: [id])
+}
+
+model Manager {
+  id           Int    @id @default(autoincrement())
+  position     String
+  departmentId Int        @unique  // Ensures each department has only one manager
+  department   Department @relation(fields: [departmentId], references: [id])
+}
+
+model Staff {
+  id       Int    @id @default(autoincrement())
+  staffId  String
+  salary   Float
+  login    Boolean?
 }
 
 // TODO: database implementation, reference in the docs above
