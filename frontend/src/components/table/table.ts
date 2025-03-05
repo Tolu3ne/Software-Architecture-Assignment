@@ -1,0 +1,90 @@
+const styles = {
+  container: {
+    backgroundColor: "white",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+  },
+  search: {
+    width: "98%",
+    padding: "10px",
+    marginBottom: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+  },
+  table: {
+    width: "98%",
+    borderCollapse: "collapse" as const,
+    margin: "10px",
+  },
+  centered: {
+    textAlign: "center" as const,
+    border: "1px solid gray",
+    borderLeft: "None",
+    borderRight: "None",
+  },
+  lefted: {
+    textAlign: "left" as const,
+    border: "1px solid gray",
+    borderLeft: "None",
+    borderRight: "None",
+    paddingLeft: "10vh",
+  },
+  icon: {
+    cursor: "pointer",
+    width: "18px",
+    height: "18px",
+  },
+  popup: {
+    position: "fixed" as const,
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  popupContent: {
+    backgroundColor: "white",
+    padding: "20px",
+    borderRadius: "8px",
+  },
+  closeButton: {
+    marginTop: "10px",
+    padding: "10px",
+    borderRadius: "5px",
+    backgroundColor: "#004A99",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+    textAlign: "center" as const,
+    display: "block",
+    margin: "0 auto",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column" as "column",
+    gap: "10px",
+  },
+  field: {
+    textDecoration: "none",
+    padding: "10px",
+    borderRadius: "5px",
+    borderWidth: "thin",
+  },
+  formButton: {
+    color: "white",
+    textDecoration: "none",
+    padding: "10px",
+    borderRadius: "5px",
+    backgroundColor: "#004A99",
+    textAlign: "center" as const,
+    display: "block",
+    margin: "0 auto",
+  },
+};
+
+export default styles;
+  

@@ -1,13 +1,13 @@
 import React from "react";
-import DashboardLayout from "../layout/DashboardLayout";
+import Sidebar from "../sidebar/PatientSidebar";
 import RecordTable from "../table/RegisterationForm";
 
 const Patient: React.FC = () => {
   return (
-    <DashboardLayout>
-      <h1>Patient Registeration</h1>
+    <Sidebar>
+      <h2>Welcome to MediBK Hospital!</h2>
       <RecordTable />
-    </DashboardLayout>
+    </Sidebar>
   );
 };
 

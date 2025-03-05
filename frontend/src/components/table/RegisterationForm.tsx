@@ -1,64 +1,57 @@
-import React from "react";
-
-const data = [
-  { name: "Andrew Richardson", mob: "955 123-4567", date: "09/03/2023", doctor: "Dr. Jennifer Roberts", department: "Pediatrics" },
-  { name: "Benjamin Thompson", mob: "953 987-6543", date: "08/03/2023", doctor: "Dr. Michael Sullivan", department: "Cardiology" },
-  { name: "Charlotte Ramirez", mob: "959 765-4321", date: "10/03/2023", doctor: "Dr. Emily Harris", department: "Gynecology" },
-];
+import React, { useState } from "react";
+import styles from "./table";
 
 const RecordTable: React.FC = () => {
+  const [formData, setFormData] = useState({
+    id: "",
+    name: "",
+    dob: "",
+    gender: "",
+    phone_number: "",
+    email: "",
+    address: "",
+    insurance: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Submitted Data:", formData);
+    alert("Patient registered successfully!");
+  };
+
   return (
     <div style={styles.container}>
-      <h2>Registeration Form</h2>
-      <input type="text" placeholder="Search here..." style={styles.search} />
-
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>MOB</th>
-            <th>Date</th>
-            <th>Doctor</th>
-            <th>Department</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.mob}</td>
-              <td>{item.date}</td>
-              <td>{item.doctor}</td>
-              <td>{item.department}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h2>Patient Registration</h2>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <label>Citizen ID</label>
+        <input style={styles.field} type="text" name="id" placeholder="Ex: 012345999999" value={formData.id} onChange={handleChange} required />
+        <label>Full name</label>
+        <input style={styles.field} type="text" name="name" placeholder="Ex: Nguyen Van A" value={formData.name} onChange={handleChange} required />
+        <label>Date of birth</label>
+        <input style={styles.field} type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+        <label>Gender</label>
+        <select style={styles.field} name="gender" value={formData.gender} onChange={handleChange} required>
+          <option value="" disabled>Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <label>Phone number</label>
+        <input style={styles.field} type="tel" name="phone_number" placeholder="Ex: 0123456789" value={formData.phone_number} onChange={handleChange} required />
+        <label>Email</label>
+        <input style={styles.field} type="email" name="email" placeholder="medibk.hcm@gmail.com" value={formData.email} onChange={handleChange} required />
+        <label>Address</label>
+        <input style={styles.field} type="text" name="address" placeholder="268 Ly Thuong Kiet, Ward 14, Dist 10, Ho Chi Minh City" value={formData.address} onChange={handleChange} required />
+        <label>Insurance ID</label>
+        <input style={styles.field} type="text" name="insurance" placeholder="Ex: 1234567890" value={formData.insurance} onChange={handleChange} required />
+        <button style={styles.formButton} type="submit">Register</button>
+      </form>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    backgroundColor: "white",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-  },
-  search: {
-    width: "100%",
-    padding: "8px",
-    marginBottom: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-  },
-  table: {
-    width: "100%",
-    borderCollapse: "collapse" as const,
-  },
-  tableHeader: {
-    backgroundColor: "#f2f2f2",
-  },
 };
 
 export default RecordTable;

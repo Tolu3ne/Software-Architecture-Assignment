@@ -1,13 +1,13 @@
 import React from "react";
-import DashboardLayout from "../layout/DashboardLayout";
-import RecordTable from "../table/DoctorPatientRecord";
+import Sidebar from "../sidebar/DoctorSidebar";
+import RecordTable from "../table/DoctorPatientTable";
 
 const Doctor: React.FC = () => {
   return (
-    <DashboardLayout>
-      <h1>Patient Management</h1>
+    <Sidebar>
+      <h2>Welcome Dr. Nhat Tan!</h2>
       <RecordTable />
-    </DashboardLayout>
+    </Sidebar>
   );
 };
 

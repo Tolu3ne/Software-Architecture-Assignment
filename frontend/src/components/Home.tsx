@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./styles";
-import hospitalImage from "../assets/hospital.png"; // Import ảnh từ thư mục assets
+import hospitalImage from "../assets/hospital.png";
 
 const Home: React.FC = () => {
   return (
