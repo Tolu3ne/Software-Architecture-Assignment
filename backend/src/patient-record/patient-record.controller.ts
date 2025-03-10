@@ -1,11 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { CreatePatientRecordDto } from './dto/create-patient-record.dto';
 import { UpdatePatientRecordDto } from './dto/update-patient-record.dto';
 import { PatientRecordServiceFactory } from './patient-record-factory';
 
 @Controller('patient')
 export class PatientRecordController {
-  constructor(private readonly patientRecordServiceFactory: PatientRecordServiceFactory) {}
+  constructor(
+    private readonly patientRecordServiceFactory: PatientRecordServiceFactory,
+  ) {}
 
   // IMPORTANT NOTE: By design both controller classes use the same API gateways, only different methods
   // Therefore, adding a @Post, @Patch or @Delete method into this gateway will lead to error cause of gateway duplication

@@ -7,14 +7,20 @@ import { PrismaService } from 'src/prisma.service';
 export class PatientRegisterService {
   constructor(private prisma: PrismaService) {}
 
-  create(createPatientRegisterDto: CreatePatientRegisterDto) {
-    // TODO: implementation
-
+  async create(createPatientRegisterDto: CreatePatientRegisterDto) {
+    await this.prisma.patient.create({
+      data: { ...createPatientRegisterDto },
+    });
     return 'This action adds a new patientRegister';
   }
 
-  update(id: number, updatePatientRegisterDto: UpdatePatientRegisterDto) {
-    // TODO: implementation
+  async update(id: number, updatePatientRegisterDto: UpdatePatientRegisterDto) {
+    await this.prisma.patient.update({
+      where: {
+        id: id,
+      },
+      data: { ...updatePatientRegisterDto },
+    });
   }
 
   remove(id: number) {
