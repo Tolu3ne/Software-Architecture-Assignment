@@ -13,11 +13,12 @@ datasource db {
 model Patient {
   id          Int    @id @default(autoincrement())
   name        String
-  age         Int?
+  dob         String?
   gender      String
   phoneNumber String?
   email       String?
   address     String?
+  insurance   String?
 
   appointments Appointment[]
   medicalRecords MedicalRecord[]
@@ -26,33 +27,40 @@ model Patient {
 
 model Doctor {
   id            Int    @id @default(autoincrement())
+  name          String
+  age           Int
+  gender        String
+  phoneNumber   String
+  email         String
+  address       String
   specialization String
-  departmentId  Int?
-  department    Department? @relation(fields: [departmentId], references: [id])
+  department  String?
   appointments Appointment[]
 }
 
-model Department {
-  id       Int    @id @default(autoincrement())
-  name     String
-  authList String?
-  doctors  Doctor[]
-  nurses   Nurse[]
-  manager Manager? @relation()
-}
+// model Department {
+//  id       Int    @id @default(autoincrement())
+//  name     String
+//  authList String?
+//  doctors  Doctor[]
+//  nurses   Nurse[]
+//  manager Manager? @relation()
+//}
 
 model Nurse {
   id            Int    @id @default(autoincrement())
-  departmentId  Int?
-  department    Department? @relation(fields: [departmentId], references: [id])
+//  departmentId  Int?
+//  department    Department? @relation(fields: [departmentId], references: [id])
 }
 
 model Appointment {
   id          Int    @id @default(autoincrement())
-  appointmentTime DateTime
+  timestamp String
   patientId   Int
   doctorId    Int
-  description String?
+  status      String
+  diagnosis String?
+  treatment String?
 
   patient     Patient @relation(fields: [patientId], references: [id])
   doctor      Doctor @relation(fields: [doctorId], references: [id])
@@ -68,11 +76,9 @@ model MedicalRecord {
 
 model Prescription {
   id                 Int    @id @default(autoincrement())
-  medicationList     String
-  dosage            String
-  duration          String
-  updatable         Boolean?
-  updatablePrescription Boolean?
+  appointmentId      Int
+  medicineName       String
+  quanity            Int
 }
 
 model Medication {
@@ -96,8 +102,8 @@ model Billing {
 model Manager {
   id           Int    @id @default(autoincrement())
   position     String
-  departmentId Int        @unique  // Ensures each department has only one manager
-  department   Department @relation(fields: [departmentId], references: [id])
+//  departmentId Int        @unique  // Ensures each department has only one manager
+//  department   Department @relation(fields: [departmentId], references: [id])
 }
 
 model Staff {
