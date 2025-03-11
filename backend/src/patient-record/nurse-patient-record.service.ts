@@ -4,10 +4,11 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class NursePatientRecordService implements PatientRecordService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
-  getAllRecords() {
+  async getAllRecords() {
     // TODO: implementation
+    return this.prisma.patient.findMany();
   }
 
   getRecordById(id: string) {

@@ -16,7 +16,7 @@ import { PatientRecordServiceFactory } from './patient-record-factory';
 export class PatientRecordController {
   constructor(
     private readonly patientRecordServiceFactory: PatientRecordServiceFactory,
-  ) {}
+  ) { }
 
   // IMPORTANT NOTE: By design both controller classes use the same API gateways, only different methods
   // Therefore, adding a @Post, @Patch or @Delete method into this gateway will lead to error cause of gateway duplication

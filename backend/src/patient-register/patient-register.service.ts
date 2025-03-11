@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PatientRegisterService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(createPatientRegisterDto: CreatePatientRegisterDto) {
     await this.prisma.patient.create({
@@ -22,6 +22,10 @@ export class PatientRegisterService {
       data: { ...updatePatientRegisterDto },
     });
   }
+
+  // async findAll() {
+  //   return await this.prisma.patient.findMany();
+  // }
 
   remove(id: number) {
     // TODO: implementation? or not
