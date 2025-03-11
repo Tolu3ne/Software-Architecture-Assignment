@@ -15,7 +15,7 @@ import { UpdatePatientRegisterDto } from './dto/update-patient-register.dto';
 export class PatientRegisterController {
   constructor(
     private readonly patientRegisterService: PatientRegisterService,
-  ) {}
+  ) { }
 
   @Post()
   create(@Body() createPatientRegisterDto: CreatePatientRegisterDto) {
