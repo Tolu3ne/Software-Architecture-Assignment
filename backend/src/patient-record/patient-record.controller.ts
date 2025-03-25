@@ -24,8 +24,10 @@ export class PatientRecordController {
   // Not implemented: Delete Post, Patch and Delete gateways
 
   @Get()
-  findAll(@Query('type') type: string) {
-    return this.patientRecordServiceFactory.get(type).getAllRecords();
+  findAll(@Query() queryObj: { type: string; filter: object }) {
+    return this.patientRecordServiceFactory
+      .get(queryObj.type)
+      .getAllRecords(queryObj.filter);
   }
 
   @Get(':id')
