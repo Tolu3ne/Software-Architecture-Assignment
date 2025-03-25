@@ -50,18 +50,21 @@ const styles = {
     backgroundColor: "white",
     padding: "20px",
     borderRadius: "8px",
+    width: '50%',
+    height: '50vh',
+    display: 'flex',
+    flexDirection: 'column' as const,
   },
   closeButton: {
-    marginTop: "10px",
-    padding: "10px",
+    padding: '5px',
+    width: '25px',
     borderRadius: "5px",
-    backgroundColor: "#004A99",
+    backgroundColor: "red",
     color: "white",
     border: "none",
     cursor: "pointer",
-    textAlign: "center" as const,
-    display: "block",
-    margin: "0 auto",
+    alignSelf: 'flex-end',
+    marginBottom: '10px',
   },
   form: {
     display: "flex",
@@ -84,7 +87,7 @@ const styles = {
     display: "block",
     margin: "0 auto",
   },
+
 };
 
 export default styles;
-  
