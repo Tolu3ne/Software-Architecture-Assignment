@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import historyIcon from "../../assets/history.svg";
 import styles from "./table";
 import common from "../../utils/common";
+import { clear } from "console";
 // TODO Long
 
 // const data = [
@@ -316,6 +317,17 @@ const RecordTable: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [data, setData] = useState<Patient[]>([]);
+  const searchTimeoutId  = useRef<NodeJS.Timeout | null>(null);
+
+  const debounceSearch = ((searchTerm: string) => {
+    if(searchTimeoutId.current){
+      clearTimeout(searchTimeoutId.current);
+    }
+    searchTimeoutId.current = setTimeout(async () => {
+      const patientData = await common.get('/patient', { type: 'DOCTOR',filter:{searchTerm} });
+        setData(patientData);
+    }, 1000);
+  });
 
   useEffect(() => {
     (async () => {
@@ -339,7 +351,9 @@ const RecordTable: React.FC = () => {
   return (
     <div style={styles.container}>
       <h2>Patient Information</h2>
-      <input type="text" placeholder="Search here..." style={styles.search} />
+      <input onChange={(e) => {
+        debounceSearch(e.target.value);
+      }} type="text" placeholder="Search here..." style={styles.search} />
 
       <table style={styles.table}>
         <thead>

@@ -16,7 +16,7 @@ import { PatientRecordServiceFactory } from './patient-record-factory';
 export class PatientRecordController {
   constructor(
     private readonly patientRecordServiceFactory: PatientRecordServiceFactory,
-  ) { }
+  ) {}
 
   // IMPORTANT NOTE: By design both controller classes use the same API gateways, only different methods
   // Therefore, adding a @Post, @Patch or @Delete method into this gateway will lead to error cause of gateway duplication
@@ -24,10 +24,11 @@ export class PatientRecordController {
   // Not implemented: Delete Post, Patch and Delete gateways
 
   @Get()
-  findAll(@Query() queryObj: { type: string; filter: object }) {
+  findAll(@Query() queryObj: { type: string; filter: string }) {
+    const filter = JSON.parse(queryObj.filter) as { searchTerm?: string };
     return this.patientRecordServiceFactory
       .get(queryObj.type)
-      .getAllRecords(queryObj.filter);
+      .getAllRecords(filter);
   }
 
   @Get(':id')

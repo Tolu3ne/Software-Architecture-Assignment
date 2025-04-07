@@ -20,7 +20,6 @@ const RecordTable: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
     alert("Patient registered successfully!");
   };
 
