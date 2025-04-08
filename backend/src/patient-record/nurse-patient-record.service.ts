@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { PatientRecordService } from './patient-record-service';
 import { PrismaService } from 'src/prisma.service';
 import { NursePatientRecord } from './dto/nurse-patient-record.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class NursePatientRecordService implements PatientRecordService {
   constructor(private prisma: PrismaService) { }
 
-  async getAllRecords(): Promise<NursePatientRecord[]> {
+  async getAllRecords(searchTerm? : string): Promise<NursePatientRecord[]> {
     const result = await this.prisma.$queryRaw`
       WITH next_appointment AS (
     SELECT a.patientId, a.timestamp AS next_appt
@@ -52,6 +53,7 @@ SELECT
         LEFT JOIN Doctor d ON a.doctorId = d.id
     ) AS appointmentHistory
 FROM Patient p
+WHERE ${searchTerm ? Prisma.sql`p.name LIKE ${'%' + searchTerm + '%'}` : Prisma.sql`TRUE`}
 LEFT JOIN next_appointment na ON p.id = na.patientId;
     ` as Object[];
     const typecast: NursePatientRecord[] = result.map(item => {

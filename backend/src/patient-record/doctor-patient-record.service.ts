@@ -8,7 +8,7 @@ import { DoctorPatientRecord } from './dto/doctor-patient-record.dto';
 export class DoctorPatientRecordService implements PatientRecordService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllRecords(filter: { searchTerm?: string }) : Promise<DoctorPatientRecord[]> {
+  async getAllRecords(searchTerm?: string) : Promise<DoctorPatientRecord[]> {
     try {
       //       const result = await this.prisma.$queryRaw`
       // WITH cte AS (
@@ -87,9 +87,6 @@ export class DoctorPatientRecordService implements PatientRecordService {
       // GROUP BY p.id, p.name, p.dob, p.gender, n.next_appt;
       //       `;
 
-      console.log(filter)
-      const searchTerm = filter ? filter.searchTerm : null;
-      console.log(searchTerm)
       const result = await this.prisma.$queryRaw`
 WITH cte AS (
   SELECT 
@@ -174,6 +171,7 @@ GROUP BY p.id, p.name, p.dob, p.gender, n.next_appt;
         record.appointmentHistory = item['appointmentHistory']
         return record
       })
+      console.log(typecast)
       return typecast;
     } catch (error) {
       console.error('Error fetching patient records:', error);

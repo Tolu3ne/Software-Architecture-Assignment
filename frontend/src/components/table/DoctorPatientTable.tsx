@@ -327,6 +327,7 @@ const RecordTable: React.FC = () => {
       const patientData = await common.get('/patient', { type: 'DOCTOR',filter:{searchTerm} });
         setData(patientData);
     }, 1000);
+    console.log(data)
   });
 
   useEffect(() => {

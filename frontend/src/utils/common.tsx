@@ -11,10 +11,33 @@ const backendRootUrl = process.env.REACT_APP_BACKEND_ROOT_URL;
             }
         }
         if (method == 'get' && typeof data == 'object') {
-            const queryString = new URLSearchParams(Object.entries(data).map(([key, value]) => {
-                return [key, typeof value === 'object' ? JSON.stringify(value) : String(value)];
-            })).toString();
-            fullUrl = `${fullUrl}?${queryString}`;
+            const params = new URLSearchParams();
+    
+            // Extract and flatten all properties
+            const flattenObject = (obj: Record<string, any>, prefix: string = ''): Record<string, string> => {
+                const flattened: Record<string, string> = {};
+                
+                for (const [key, value] of Object.entries(obj)) {
+                    if (value === null || value === undefined) {
+                        continue;
+                    } else if (typeof value === 'object' && !Array.isArray(value)) {
+                        Object.assign(flattened, flattenObject(value));
+                    } else {
+                        flattened[key] = String(value);
+                    }
+                }
+                
+                return flattened;
+            };
+            
+            const flattenedData = flattenObject(data);
+            for (const [key, value] of Object.entries(flattenedData)) {
+                params.append(key, value);
+            }
+            
+            const queryString = params.toString();
+            fullUrl = queryString ? `${fullUrl}?${queryString}` : fullUrl;
+            console.log(fullUrl);
         }
         else {
             options.body = JSON.stringify(data);

@@ -23,11 +23,11 @@ export class PatientRecordController {
   // Not implemented: Delete Post, Patch and Delete gateways
 
   @Get()
-  async findAll(@Query() queryObj: { type: string; filter: object }) {
+  async findAll(@Query() queryObj: { type: string; searchTerm?: string }) {
     try {    
       const data = await this.patientRecordServiceFactory
         .get(queryObj.type)
-        .getAllRecords(queryObj.filter)
+        .getAllRecords(queryObj.searchTerm)
       return {
         success: true,
         data: data
@@ -51,7 +51,7 @@ export class PatientRecordController {
     try {    
       const data = await this.patientRecordServiceFactory
         .get(type)
-        .getAllRecords({})
+        .getAllRecords()
       console.log(data[0].id)
       return {
         success: true,
