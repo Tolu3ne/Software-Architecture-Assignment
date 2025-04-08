@@ -7,9 +7,8 @@ import {
   Param,
   Delete,
   Query,
+  InternalServerErrorException,
 } from '@nestjs/common';
-import { CreatePatientRecordDto } from './dto/create-patient-record.dto';
-import { UpdatePatientRecordDto } from './dto/update-patient-record.dto';
 import { PatientRecordServiceFactory } from './patient-record-factory';
 
 @Controller('patient')
@@ -24,11 +23,52 @@ export class PatientRecordController {
   // Not implemented: Delete Post, Patch and Delete gateways
 
   @Get()
-  findAll(@Query() queryObj: { type: string; filter: string }) {
-    const filter = JSON.parse(queryObj.filter) as { searchTerm?: string };
-    return this.patientRecordServiceFactory
-      .get(queryObj.type)
-      .getAllRecords(filter);
+  async findAll(@Query() queryObj: { type: string; filter: object }) {
+    try {    
+      const data = await this.patientRecordServiceFactory
+        .get(queryObj.type)
+        .getAllRecords(queryObj.filter)
+      return {
+        success: true,
+        data: data
+      }
+    }
+
+    catch (error) {
+      console.error('Error fetching patient records:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      throw new InternalServerErrorException({
+        success: false,
+        message: 'Failed to fetch patient records',
+        error: errorMessage,
+      });
+    }
+  }
+
+  @Get('/all')
+  async findAllRecords(@Query('type') type: string) {
+    try {    
+      const data = await this.patientRecordServiceFactory
+        .get(type)
+        .getAllRecords({})
+      console.log(data[0].id)
+      return {
+        success: true,
+        data: data
+      }
+    }
+
+    catch (error) {
+      console.error('Error fetching patient records:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      throw new InternalServerErrorException({
+        success: false,
+        message: 'Failed to fetch patient records',
+        error: errorMessage,
+      });
+    }
   }
 
   @Get(':id')

@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PatientRecordService } from './patient-record-service';
 import { PrismaService } from 'src/prisma.service';
+import { NursePatientRecord } from './dto/nurse-patient-record.dto';
 
 @Injectable()
 export class NursePatientRecordService implements PatientRecordService {
   constructor(private prisma: PrismaService) { }
 
-  async getAllRecords() {
+  async getAllRecords(): Promise<NursePatientRecord[]> {
     const result = await this.prisma.$queryRaw`
       WITH next_appointment AS (
     SELECT a.patientId, a.timestamp AS next_appt
@@ -52,8 +53,17 @@ SELECT
     ) AS appointmentHistory
 FROM Patient p
 LEFT JOIN next_appointment na ON p.id = na.patientId;
-    `;
-    return result;
+    ` as Object[];
+    const typecast: NursePatientRecord[] = result.map(item => {
+            const record = new NursePatientRecord();
+            record.id = item['patient_id'];
+            record.name = item['patient_name'];
+            record.dob = item['dob'];
+            record.gender = item['gender'];
+            record.appointmentHistory = item['appointmentHistory']
+            return record
+          })
+    return typecast as NursePatientRecord[];
   }
 
   getRecordById(id: string) {

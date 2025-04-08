@@ -2,12 +2,13 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PatientRecordService } from './patient-record-service';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
+import { DoctorPatientRecord } from './dto/doctor-patient-record.dto';
 
 @Injectable()
 export class DoctorPatientRecordService implements PatientRecordService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllRecords(filter: { searchTerm?: string }) {
+  async getAllRecords(filter: { searchTerm?: string }) : Promise<DoctorPatientRecord[]> {
     try {
       //       const result = await this.prisma.$queryRaw`
       // WITH cte AS (
@@ -86,7 +87,9 @@ export class DoctorPatientRecordService implements PatientRecordService {
       // GROUP BY p.id, p.name, p.dob, p.gender, n.next_appt;
       //       `;
 
-      const { searchTerm } = filter;
+      console.log(filter)
+      const searchTerm = filter ? filter.searchTerm : null;
+      console.log(searchTerm)
       const result = await this.prisma.$queryRaw`
 WITH cte AS (
   SELECT 
@@ -160,8 +163,18 @@ LEFT JOIN cte_next_appt n ON p.id = n.patientId
 LEFT JOIN cte_appointments a ON p.id = a.patientId
 WHERE ${searchTerm ? Prisma.sql`p.name LIKE ${'%' + searchTerm + '%'}` : Prisma.sql`TRUE`}
 GROUP BY p.id, p.name, p.dob, p.gender, n.next_appt;
-    `;
-      return { success: true, data: result };
+    ` as Object[]; 
+      const typecast: DoctorPatientRecord[] = result.map(item => {
+        const record = new DoctorPatientRecord();
+        record.id = item['patient_id'];
+        record.name = item['name'];
+        record.dob = item['dob'];
+        record.gender = item['gender'];
+        record.next_appt = item['next_appt'];
+        record.appointmentHistory = item['appointmentHistory']
+        return record
+      })
+      return typecast;
     } catch (error) {
       console.error('Error fetching patient records:', error);
       const errorMessage =
